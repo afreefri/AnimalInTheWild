@@ -9,6 +9,7 @@ public class GridS : MonoBehaviour
     public float waterLevel = 0.4f; // any noise value over this number is not water and any noise value under this is water 
     public Material terrainMaterial;
     public Material edgeMaterial;
+    public GameObject player;
 
     Cell[,] grid; 
 
@@ -62,6 +63,10 @@ public class GridS : MonoBehaviour
         DrawTerrainMesh(grid);
         DrawEdgeMesh(grid);
         DrawTexture(grid);
+        Vector3 playerSpawnPos = landRegion(grid);
+        Debug.Log(playerSpawnPos);
+        Instantiate(player, playerSpawnPos, Quaternion.identity);
+
     }
 
     void DrawTerrainMesh(Cell[,] grid) // will take our array of cells and make it into a mesh
@@ -254,5 +259,25 @@ public class GridS : MonoBehaviour
                 Gizmos.DrawCube(pos, new Vector2(1,1));
             }
         }
+    }
+
+    Vector3 landRegion(Cell[,] grid) // get random land position
+    {
+        List<Vector3> land = new List<Vector3>(); // store xy position of land cell
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                Cell cell = grid[x, y];
+                if (!cell.isWater)
+                {
+                    Vector3 noWater = new Vector3(x, 10, y);
+                    land.Add(noWater);
+                }
+            }
+        }
+        int randomLand = Random.Range(0, land.Count);
+        return land[randomLand];
+
     }
 }
