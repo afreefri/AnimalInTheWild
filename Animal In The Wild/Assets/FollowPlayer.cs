@@ -1,15 +1,43 @@
 using UnityEngine;
 
+/*
+ Goes on the main camera object
+ will follow the player 
+ */
+
 public class FollowPlayer : MonoBehaviour
 {
 
     public Transform player; // create a reference to the player 
     public Vector3 offset;
+    public bool lookAt = true;
+    public Space offsetPositionSpace = Space.Self;
 
-    // Update is called once per frame
     void Update()
     {
-        //Debug.Log(player.position); // every frame, the console will update and print out the position of the player 
-        transform.position = player.position + offset; // transform with lower case t is refering to the transform of this current object (aka the camera)
+        Refresh();
+    }
+
+    void Refresh()
+    {
+        // compute position
+        if (offsetPositionSpace == Space.Self)
+        {
+            transform.position = player.TransformPoint(offset);
+        }
+        else
+        {
+            transform.position = player.position + offset;
+        }
+
+        // compute rotation
+        if (lookAt)
+        {
+            transform.LookAt(player);
+        }
+        else
+        {
+            transform.rotation = player.rotation;
+        }
     }
 }
