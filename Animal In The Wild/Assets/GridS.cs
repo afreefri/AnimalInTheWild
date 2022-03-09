@@ -105,6 +105,10 @@ public class GridS : MonoBehaviour
         meshFilter.mesh = mesh;
 
         MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
+        
+        //create a mesh renderer for the terrain
+        MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = mesh;
 
     }
 
