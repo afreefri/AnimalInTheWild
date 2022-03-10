@@ -12,6 +12,7 @@ public class GridS : MonoBehaviour
     public Material terrainMaterial;
     public Material edgeMaterial;
     public GameObject player;
+    public GameObject target;
     public Transform playPos; // reference to player position
     public GameObject[] treePrefabs;
 
@@ -70,13 +71,19 @@ public class GridS : MonoBehaviour
         DrawEdgeMesh(grid);
         DrawTexture(grid);
         GenerateTrees(grid);
+
+        //Initialize turtle here
+        Vector3 targetSpawnPos = landRegion(grid); // for turtle
+        targetSpawnPos.y = 0;
+        target.transform.position = targetSpawnPos;
+        target.SetActive(true);
         
         //Initialize player here
         Vector3 playerSpawnPos = landRegion(grid);
         //Debug.Log(playerSpawnPos);
         playPos.position = playerSpawnPos;
         player.SetActive(true);
-        //Instantiate(player, playerSpawnPos, Quaternion.identity);
+        // Instantiate(target, targetSpawnPos, Quaternion.identity);
 
     }
 

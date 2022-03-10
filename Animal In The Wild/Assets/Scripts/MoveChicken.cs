@@ -13,10 +13,16 @@ public class MoveChicken : MonoBehaviour
     public float speed = 3.0f;
     public float gravity = 20.0f;
     public float rotateSpeed = 3.0f;
+    public float jumpSpeed;
     Vector3 moveDirection = Vector3.zero;
 
     public CharacterController controller;
     public Animator animator;
+
+    public GameObject WinGame;
+    public GameObject LoseGame;
+    public AudioSource winSfx;
+    public AudioSource loseSfx;
 
     void Update()
     {
@@ -30,6 +36,11 @@ public class MoveChicken : MonoBehaviour
             moveDirection *= speed;
         }
         moveDirection.y -= gravity * Time.deltaTime;
+
+        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        {
+            moveDirection.y = jumpSpeed;
+        }
         controller.Move(moveDirection * Time.deltaTime);
 
         //rotating
@@ -41,7 +52,22 @@ public class MoveChicken : MonoBehaviour
         if (transform.position.y < -2)
         {
             // for now everytime player falls, it will reset scene
-            SceneManager.LoadScene("SampleScene");
+            // SceneManager.LoadScene("SampleScene");
+            loseSfx.time = 0.1f;
+            loseSfx.Play();
+            gameObject.SetActive(false);
+            LoseGame.SetActive(true);
+            
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "target")
+        {
+            Debug.Log("Found turtle");
+            winSfx.Play();
+            WinGame.SetActive(true);
         }
     }
 
