@@ -5,7 +5,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637824821440000000
+      ticks: 637824869910000000
     m_Hash: 1333142569
   m_LockFileStatus:
     m_FilePath: /Users/aliahshakirin/Desktop/AnimalInTheWild/Animal In The Wild/Packages/packages-lock.json
@@ -13,7 +13,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637824821440000000
+      ticks: 637824869910000000
     m_Hash: 761306994
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}

@@ -280,7 +280,7 @@ public class GridS : MonoBehaviour
             for (int x = 0; x < size; x++)
             {
                 Cell cell = grid[x, y];
-                if (!cell.isWater)
+                if (!cell.isWater && !cell.isObstacle)
                 {
                     Vector3 noWater = new Vector3(x, 10, y);
                     land.Add(noWater);
@@ -321,6 +321,7 @@ public class GridS : MonoBehaviour
                         tree.transform.position = new Vector3(x, 0, y);
                         tree.transform.rotation = Quaternion.Euler(0, Random.Range(0,360f), 0);
                         tree.transform.localScale = Vector3.one * Random.Range(.8f, 1.2f);
+                        cell.isObstacle = true;
 
                     }
                 }
