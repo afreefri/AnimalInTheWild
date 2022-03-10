@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class GridS : MonoBehaviour
 {
-    public int size = 50;
+    public int size = 100;
     public float scale = 0.1f; // scale for the perlin noise 
+    public float treeNoiseScale = .05f;
+    public float treeDensity = .5f;
     public float waterLevel = 0.4f; // any noise value over this number is not water and any noise value under this is water 
     public Material terrainMaterial;
     public Material edgeMaterial;
     public GameObject player;
     public Transform playPos; // reference to player position
+    public GameObject[] treePrefabs;
 
     Cell[,] grid; 
 
@@ -66,6 +69,7 @@ public class GridS : MonoBehaviour
         DrawTerrainMesh(grid);
         DrawEdgeMesh(grid);
         DrawTexture(grid);
+        GenerateTrees(grid);
         
         //Initialize player here
         Vector3 playerSpawnPos = landRegion(grid);
@@ -285,6 +289,43 @@ public class GridS : MonoBehaviour
         }
         int randomLand = Random.Range(0, land.Count);
         return land[randomLand];
+
+    }
+
+    void GenerateTrees(Cell[,] grid)
+    {
+        float[,] noiseMap = new float[size, size];
+        (float xOffSet, float yOffSet) = (Random.Range(-1000f,1000f), Random.Range(-1000f,1000f));
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                float noiseValue = Mathf.PerlinNoise(x * treeNoiseScale + xOffSet, y * treeNoiseScale + yOffSet);
+                noiseMap[x, y] = noiseValue;
+            }
+        }
+
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                Cell cell = grid[x,y];
+                if(!cell.isWater)
+                {
+                    float v = Random.Range(0f, treeDensity);
+                    if (noiseMap[x,y] < v)
+                    {
+                        // that's a tree
+                        GameObject prefab = treePrefabs[Random.Range(0,treePrefabs.Length)];
+                        GameObject tree = Instantiate(prefab, transform);
+                        tree.transform.position = new Vector3(x, 0, y);
+                        tree.transform.rotation = Quaternion.Euler(0, Random.Range(0,360f), 0);
+                        tree.transform.localScale = Vector3.one * Random.Range(.8f, 1.2f);
+
+                    }
+                }
+            }
+        }
 
     }
 }
