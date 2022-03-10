@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
  goes on player 
@@ -36,7 +37,14 @@ public class MoveChicken : MonoBehaviour
 
         //animation
         animator.SetBool("Walk", verticalInput != 0); 
+
+        if (transform.position.y < -2)
+        {
+            // for now everytime player falls, it will reset scene
+            SceneManager.LoadScene("SampleScene");
+        }
     }
+
 
     /*
     public float speed = 1.0f;
